@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+
+  app:  #Backend service
+    build: .
+      #build image from the dockerfile
+    image: myimage:latest
+    container_name: my_app_container
+    
+    ports:
+      - "8000:8000"
+    
+    environment:
+        -APP_ENV: Testing
+        -DATABASE_USER: Habhi
+        -DATABASE_PASSWORD: Habhi@123
+        -PORT: 8000
+        -DATABASE_HOST: db
+        -DATABASE_NAME: my_database
+    restart: unless-stopped
+  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+                   
+
+
+
+#   db: # sql Database service
+#    image: sql:3.9
+# #   MYSQL_ROOT_PASSWORD: Habhi123
+#    MYSQL_DATABASE: my_database
+#    MYSQL_USER: my_user
+#    MYSQL_PASSWORD: my_password
+
+#   ports:
+#     - "3306:3306"
+#   volumes:
+#     - db_data:/var/lib/mysql
+
+#   volumes
+#     db_data:
+
+
+#   web: #frontend service
+#    image: node:20
+#    container_name: my_web_container
+#   ports:
+#    - "3000:3000"
+#   restart: Always
+    
